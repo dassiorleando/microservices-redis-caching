@@ -27,11 +27,6 @@ exports.error = function (error) {
 exports.init = function (config) {
   if (!config) return false;
   console.log('Initing configs ...');
-  
-  if (!config.JWT_SECRET) {
-    console.error('❌ Some env vars are required.');
-    return false;
-  }
 
   console.log('Microservice Inited');
   return true;
