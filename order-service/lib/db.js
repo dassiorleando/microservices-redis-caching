@@ -17,7 +17,7 @@ module.exports = () => {
 
   // explicit connect
   function connect () {
-    mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: false, reconnectTries: 30, reconnectInterval: 500, auto_reconnect: true }).then(() => {
+    mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: false, reconnectTries: 30, reconnectInterval: 500, auto_reconnect: true, useFindAndModify: false }).then(() => {
     }).catch(Util.error);
   }
 

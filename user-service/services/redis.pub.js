@@ -1,5 +1,5 @@
 /**
- * Redis pub service: for server (ec2) deployment.
+ * Redis pub service.
  * Useful to communicate (publish) between microservices.
  */
 const redisClient = require('../lib/redis')(true);

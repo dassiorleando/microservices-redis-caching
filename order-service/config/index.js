@@ -12,6 +12,6 @@ module.exports = {
     REDIS_AUTH: process.env.REDIS_AUTH,
 
     // MongoDB uri
-    MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost/order_service_db'
+    MONGODB_URI: process.env.MONGODB_URI || 'mongodb://127.0.0.1/order_service_db'
 
 }

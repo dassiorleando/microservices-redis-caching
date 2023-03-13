@@ -24,11 +24,11 @@ app.use(express.json({ limit: '50000mb' }));                         // Json
 app.use(express.urlencoded({ limit: '50000mb', extended: false }));  // form-url-encoded
 
 // The endpoints' prefix
-app.use('/ni-microservice-node', router);
+app.use('/user-service', router);
 
 // Set our api routes
 router.get('/pingify', (req, res) => res.send('SERVICE IS FINE'));
-router.use('/empties', userRoute);
+router.use('/users', userRoute);
 
 // Ingesting App events when deployed into a server, either we get them via SNS
 (async () => {

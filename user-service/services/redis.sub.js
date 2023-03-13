@@ -1,5 +1,5 @@
 /**
- * Redis sub service: for lambda (cloud function) deployment.
+ * Redis sub service.
  * Useful to communicate (receive) between microservices.
  */
 const Util = require('./util');

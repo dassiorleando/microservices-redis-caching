@@ -9,7 +9,7 @@ const Redis = require('bluebird').promisifyAll(require('redis'));
  * @returns {void}
  */
 function connect() {
-    const options = { host: config.REDIS_HOST, port: config.REDIS_PORT, password: config.REDIS_AUTH, tls: {}, retryStrategy, prefix: config.ENV + ':' };
+    const options = { host: config.REDIS_HOST, port: config.REDIS_PORT, password: config.REDIS_AUTH, tls: {}, retryStrategy };
     if (!config.REDIS_AUTH) {
         delete options.tls;
         delete options.password;
