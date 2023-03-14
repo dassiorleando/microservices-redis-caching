@@ -13,7 +13,13 @@ exports.create = function (data) {
     })
 }
 
-exports.findById = function (userId) {
+exports.findById = async function (userId) {
+    const cachedUser = await cacheService.readUser(userId);
+    if (cachedUser) {
+        console.log(`Cache hit for findById on user#${userId}`);
+        return cachedUser;
+    }
+    console.log(`Cache miss for findById on user#${userId}`);
     return UserModel.findById(userId);
 }
 
