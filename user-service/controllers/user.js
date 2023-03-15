@@ -25,7 +25,7 @@ exports.findOne = async (req, res) => {
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
         return res.status(status.BAD_REQUEST).json({
             success: false,
-            message: 'User Id is invalid'
+            message: 'Invalid id provided!'
         });
     }
 
@@ -53,7 +53,7 @@ exports.update = async (req, res) => {
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
         return res.status(status.BAD_REQUEST).json({
             success: false,
-            message: 'User Id is invalid'
+            message: 'Invalid id provided!'
         });
     }
 
@@ -77,7 +77,7 @@ exports.delete = async (req, res) => {
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
         return res.status(status.BAD_REQUEST).json({
             success: false,
-            message: 'User Id is invalid'
+            message: 'Invalid id provided!'
         });
     }
 

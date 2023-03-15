@@ -1,5 +1,5 @@
 /**
- * Some useful utilities.
+ * Some utilities.
  */
 
 /**

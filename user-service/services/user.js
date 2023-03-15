@@ -4,44 +4,44 @@
 const cacheService = require('./cache');
 const UserModel = require("../models/user");
 
-exports.create = function (data) {
-    return new Promise(async(resolve, reject) => {
-        const user = new UserModel(data);
-        await user.save().catch(reject);
-        await cacheService.cacheUser(user); // Update cache once the DB change is done
-        resolve(user);
-    })
+exports.create = async (data) => {
+    const user = new UserModel(data);
+    await user.save();
+    await cacheService.cacheUser(user); // Update cache once the DB change is done
+    return user;
 }
 
-exports.findById = async function (userId) {
+exports.findById = async (userId) => {
     const cachedUser = await cacheService.readUser(userId);
-    if (cachedUser) {
-        console.log(`Cache hit for findById on user#${userId}`);
-        return cachedUser;
+    if (!cachedUser) {
+        console.log(`Cache miss for findById on user#${userId}`);
+        const userFound = await UserModel.findById(userId);
+        console.log('Data loaded from the DB')
+        await cacheService.cacheUser(userFound); // Update cache once the DB change is done
+        return userFound;
     }
-    console.log(`Cache miss for findById on user#${userId}`);
-    return UserModel.findById(userId);
+    console.log(`Cache hit for findById on user#${userId}`);
+    return cachedUser;
 }
 
-exports.findAll = function () {
+exports.findAll = async () => {
     return UserModel.find();
 }
 
-exports.update = function (userId, data) {
+exports.update = async (userId, data) => {
+    if (!data) return;
     delete data._id;
-    return new Promise(async(resolve, reject) => {
-		await UserModel.findByIdAndUpdate(userId, data).catch(reject);
-		const userFound = await UserModel.findById(userId).catch(reject);
-        await cacheService.cacheUser(userFound).catch(reject); // Update cache once the DB change is done
-		resolve(userFound);
-    })
+    await UserModel.findByIdAndUpdate(userId, data);
+    const userFound = await UserModel.findById(userId);
+    await cacheService.cacheUser(userFound); // Update cache once the DB change is done
+    return userFound;
 }
 
-exports.delete = function (userId) {
-    return new Promise(async(resolve, reject) => {
-        const userFound = UserModel.findById(userId).catch(reject);
-        await userFound.remove().catch(reject);
+exports.delete = async (userId) => {
+    const userFound = await UserModel.findById(userId);
+    if (userFound) {
+        await userFound.remove();
+        console.log('user deleted from DB');
         cacheService.deleteUser(userFound); // Delete cache once the DB change is done
-        resolve(userFound);
-    })
+    }
 }
