@@ -2,6 +2,7 @@
  * Setting up video express app
  */
 const express = require('express');
+require('express-async-errors');
 const db = require('./lib/db')();
 const redisClient = require('./lib/redis')();
 const Util = require('./services/util');
@@ -30,6 +31,11 @@ app.use('/user-service', router);
 router.get('/pingify', (req, res) => res.send('SERVICE IS FINE'));
 router.use('/users', userRoute);
 
+// Catch all other routes then throw
+router.get('*', (req, res) => {
+  res.status(404).send('Resource Not Found');
+});
+
 // Ingesting App events when deployed into a server, either we get them via SNS
 (async () => {
   // Loading Redis ingest and subscriber services for server deployment
@@ -55,11 +61,6 @@ router.use(function (err, req, res, next) {
     Util.error(err);
     res.status(400).json({ success: false, message: Util.getErrorMessage(err) });
   }
-});
-
-// Catch all other routes then throw
-app.get('*', (req, res) => {
-  res.status(404).send('Resource Not Found');
 });
 
 module.exports = app;

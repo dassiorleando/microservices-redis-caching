@@ -16,7 +16,7 @@ exports.noop = function () {
  * @returns {void}
  */
 exports.error = function (error) {
-  console.error('❌ Something went wrong', error);
+  console.error('❌ Something went wrong: ', error);
 }
 
 /**
