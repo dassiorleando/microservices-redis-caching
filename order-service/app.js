@@ -9,7 +9,7 @@ const cors = require('cors');
 const cron = require('node-cron');
 
 // Some routes
-const emptyRoute = require('./routes/empty');
+const orderRoute = require('./routes/order');
 
 const redisSubService = require('./services/redis.sub');
 const router = express.Router();
@@ -24,11 +24,11 @@ app.use(express.json({ limit: '50000mb' }));                         // Json
 app.use(express.urlencoded({ limit: '50000mb', extended: false }));  // form-url-encoded
 
 // The endpoints' prefix
-app.use('/ni-microservice-node', router);
+app.use('/order-service', router);
 
 // Set our api routes
 router.get('/pingify', (req, res) => res.send('SERVICE IS FINE'));
-router.use('/empties', emptyRoute);
+router.use('/orders', orderRoute);
 
 // Ingesting App events when deployed into a server, either we get them via SNS
 (async () => {

@@ -1,17 +1,20 @@
 /**
- * Empty model.
+ * Order model.
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var emptySchema = new Schema({
-    title: String,
-    description: String,
+var orderSchema = new Schema({
+    productName: String,
+    price: Number,
+    quantity: Number,
+    username: String,
+    email: String,
     createdAt: Date,
     updatedAt: Date
 });
 
-emptySchema.pre('save', function (next) {
+orderSchema.pre('save', function (next) {
     var currentDate = new Date();
   
     // Edit the updatedAt field to the current date
@@ -23,6 +26,6 @@ emptySchema.pre('save', function (next) {
     next();
 });
 
-var Empty = mongoose.model('Empty', emptySchema);
+var OrderModel = mongoose.model('Order', orderSchema);
 
-module.exports = Empty;
+module.exports = OrderModel;

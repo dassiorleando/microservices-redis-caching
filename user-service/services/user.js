@@ -16,7 +16,7 @@ exports.findById = async (userId) => {
     if (!cachedUser) {
         console.log(`Cache miss for findById on user#${userId}`);
         const userFound = await UserModel.findById(userId);
-        console.log('Data loaded from the DB')
+        console.log('Data loaded from the DB and cached')
         await cacheService.cacheUser(userFound); // Update cache once the DB change is done
         return userFound;
     }

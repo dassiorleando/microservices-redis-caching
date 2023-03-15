@@ -51,5 +51,5 @@ module.exports = () => {
   });
 
   // Registering schemas
-  require('../models/empty');
+  require('../models/order');
 }

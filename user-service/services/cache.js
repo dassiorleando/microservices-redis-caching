@@ -3,6 +3,7 @@ const constant = require('../config/constant');
 const redisClient = require('../lib/redis')();
 
 exports.cacheUser = async (user) => {
+    if (!order) return Promise.resolve(null);
     const userId = user?._id;
     if (!userId) return Promise.reject('invalid user data provided');
     const userData = JSON.parse(JSON.stringify(user));

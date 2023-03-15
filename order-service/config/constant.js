@@ -3,8 +3,8 @@
  */
 module.exports = {
     // Redis fields
-    'KEY1': 'VALUE1',
-    'KEY2': 'VALUE2',
+    'order': 'order',
+    'user': 'user',
 
     'EVENTS': ['topicA', 'topicB'],
 };
