@@ -6,5 +6,5 @@ module.exports = {
     'order': 'order',
     'user': 'user',
 
-    'EVENTS': ['topicA', 'topicB'],
+    'EVENTS': ['topicA', 'topicB', 'userUpdated'],
 };

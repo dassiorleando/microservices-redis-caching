@@ -7,7 +7,7 @@ const redisClient = require('../lib/redis')(true);
 /**
  * Pushing the event
  */
-exports.send = function (topic, data) {
+exports.send = async function (topic, data) {
     if (topic && data) {
         return redisClient.publishAsync(topic, JSON.stringify(data));
     } else {

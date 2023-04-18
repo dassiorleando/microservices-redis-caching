@@ -2,7 +2,9 @@
  * User service for CRUD operations.
  */
 const cacheService = require('./cache');
+const redisPubService = require('./redis.pub');
 const UserModel = require("../models/user");
+const constant = require('../config/constant');
 
 exports.create = async (data) => {
     const user = new UserModel(data);
@@ -35,11 +37,13 @@ exports.findAll = async () => {
 exports.update = async (userId, data) => {
     if (!data) return;
     delete data._id;
+
     await UserModel.findByIdAndUpdate(userId, data);
     const userFound = await UserModel.findById(userId);
     await cacheService.cacheUser(userFound); // Update cache once the DB change is done
 
-    // TODO: event push ... 
+    // Pub-sub mechanism: notify other services about user updates
+    await redisPubService.send(constant.USER_UPDATED, { userId });
 
     return userFound;
 }

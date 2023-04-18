@@ -7,7 +7,6 @@ const db = require('./lib/db')();
 const redisClient = require('./lib/redis')();
 const Util = require('./services/util');
 const cors = require('cors');
-const cron = require('node-cron');
 
 // Some routes
 const orderRoute = require('./routes/order');
@@ -41,11 +40,6 @@ router.get('*', (req, res) => {
   // Loading Redis ingest and subscriber services for server deployment
   redisSubService.ingestingEvents();
   redisSubService.subscribing();
-
-  // Running jogs using node-cron package
-  cron.schedule("0 * * * *", () => { // Every hour
-    // Calling a service for scheduled event processing
-  });
 })();
 
 // Middleware for handling some errors

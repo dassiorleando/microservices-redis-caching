@@ -10,7 +10,7 @@ exports.create = async (data) => {
     const cachedUser = await cacheService.readUser(data.userId);
     if (!cachedUser) return Promise.reject('Invalid user provided!');
     
-    const order = new OrderModel({ ...data, username: cachedUser.username, email: cachedUser.email });
+    const order = new OrderModel({ ...data, userId: data.userId, username: cachedUser.username, email: cachedUser.email });
     await order.save();
 
     await cacheService.cacheOrder(order); // Update cache once the DB change is done
@@ -41,9 +41,11 @@ exports.findAll = async () => {
 exports.update = async (orderId, data) => {
     if (!data) return;
     delete data._id;
+
     await OrderModel.findByIdAndUpdate(orderId, data);
     const orderFound = await OrderModel.findById(orderId);
     await cacheService.cacheOrder(orderFound); // Update cache once the DB change is done
+
     return orderFound;
 }
 
@@ -54,4 +56,14 @@ exports.delete = async (orderId) => {
         console.log('order deleted from DB');
         cacheService.deleteOrder(orderFound); // Delete cache once the DB change is done
     }
+}
+
+exports.populateOrderWithUpdatedUser = async (userId) => {
+    if (!userId) return Promise.reject('Invalid user id provided!');
+    
+    const cachedUser = await cacheService.readUser(userId);
+    if (!cachedUser) return Promise.reject('User not found!');
+    
+    console.log('Called operation that will update the orders with the lates user info');
+    await OrderModel.updateMany({ userId }, { username: cachedUser.username, email: cachedUser.email });
 }

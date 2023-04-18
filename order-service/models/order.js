@@ -8,6 +8,7 @@ var orderSchema = new Schema({
     productName: String,
     price: Number,
     quantity: Number,
+    userId: String,
     username: String,
     email: String,
     createdAt: Date,
